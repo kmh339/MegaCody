@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.androidtown.megacody">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -27,8 +25,19 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".CameraActivity"/>
-        <activity android:name=".LaunchActivity"/>
         <activity android:name=".LoginActivity"/>
+
+        <!-- 사진 촬영을 위한 provide -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.androidtown.megacody.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>
