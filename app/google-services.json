@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "154846422715",
+    "firebase_url": "https://megacody-578e9.firebaseio.com",
+    "project_id": "megacody-578e9",
+    "storage_bucket": "megacody-578e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154846422715:android:017e8c64066640bb23ab9e",
+        "android_client_info": {
+          "package_name": "org.androidtown.megacody"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154846422715-nmjcli7mt7dbem77o2jjptromd3gmej6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.megacody",
+            "certificate_hash": "5286fcfb00886a9ddc6049b15ba67d64896e3fc6"
+          }
+        },
+        {
+          "client_id": "154846422715-osfglki163396nehs89th346siru2fg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP-KSxJFCjFF5BRh2DrjFnPmVss4xbMtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154846422715-osfglki163396nehs89th346siru2fg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
