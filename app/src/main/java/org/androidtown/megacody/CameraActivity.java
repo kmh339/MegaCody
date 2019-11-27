@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -42,9 +43,11 @@ public class CameraActivity extends AppCompatActivity{
     private Boolean isPermission = true;
 
     private File tempFile;
+    private String absoluteImagePath = "";
 
     Button galleryButton;
     Button cameraButton;
+    ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,8 +69,21 @@ public class CameraActivity extends AppCompatActivity{
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPermission)  takePhoto();
-                else Toast.makeText(v.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
+                if(isPermission)  {
+                    takePhoto();
+
+                }
+                else {
+                    Toast.makeText(v.getContext(), getResources().getString(R.string.permission_2), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        imageView = findViewById(R.id.imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), absoluteImagePath, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -157,6 +173,9 @@ public class CameraActivity extends AppCompatActivity{
             setImage();
 
         } else if (requestCode == PICK_FROM_CAMERA){
+            //저장된 이미지를 보여주도록 갤러리 갱신
+            galleryAddPic(tempFile.getAbsolutePath());
+
             setImage();
         }
     }
@@ -167,6 +186,9 @@ public class CameraActivity extends AppCompatActivity{
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+
+        absoluteImagePath = tempFile.getAbsolutePath();
+
 
         imageView.setImageBitmap(originalBm);
         /**
@@ -222,6 +244,25 @@ public class CameraActivity extends AppCompatActivity{
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
         return image;
+    }
+
+    private void galleryAddPic(String currentPhotoPath) {
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//        File f = new File(currentPhotoPath);
+//        //새로고침할 사진경로
+//        Uri contentUri = Uri.fromFile(f);
+//        mediaScanIntent.setData(contentUri);
+//        this.sendBroadcast(mediaScanIntent);
+        MediaScannerConnection.scanFile(this,
+                new String[]{currentPhotoPath},
+                null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    @Override
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
     }
 
 
