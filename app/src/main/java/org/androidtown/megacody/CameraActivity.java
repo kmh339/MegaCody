@@ -16,13 +16,28 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -45,15 +60,20 @@ public class CameraActivity extends AppCompatActivity{
     private File tempFile;
     private String absoluteImagePath = "";
 
+    FirebaseStorage storage;
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference conditionRef = mRootRef.child("images");
+
     Button galleryButton;
     Button cameraButton;
     ImageView imageView;
+    EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
+        storage = FirebaseStorage.getInstance();
         tedPermission();
 
         galleryButton = findViewById(R.id.btnGallery);
@@ -78,14 +98,80 @@ public class CameraActivity extends AppCompatActivity{
                 }
             }
         });
+        editText = findViewById(R.id.edittext);
 
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), absoluteImagePath, Toast.LENGTH_LONG).show();
+
+                Uri file = Uri.fromFile(new File(absoluteImagePath));
+                //스토리지에 이미지 저장 위치 설정
+                final StorageReference riversRef = storage.getReference().child("images/" + file.getLastPathSegment());
+
+                UploadTask uploadTask = riversRef.putFile(file);
+
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(imageView.getContext(), "업로드 실패", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(imageView.getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+
+                        // Continue with the task to get the download URL
+                        return riversRef.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
+                            conditionRef.setValue(res);
+
+                            editText.setText(downloadUri.toString());
+
+
+                        } else {
+                            // Handle failures
+                            // ...
+                        }
+                    }
+                });
+
             }
         });
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        conditionRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               // String text = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void tedPermission() {
