@@ -98,7 +98,6 @@ public class CameraActivity extends AppCompatActivity{
                 }
             }
         });
-        editText = findViewById(R.id.edittext);
 
         imageView = findViewById(R.id.imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +142,7 @@ public class CameraActivity extends AppCompatActivity{
                             String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
                             conditionRef.setValue(res);
 
-                            editText.setText(downloadUri.toString());
+                            //editText.setText(downloadUri.toString());
 
 
                         } else {
@@ -153,6 +152,7 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 });
 
+                startActivity(new Intent(CameraActivity.this, CodyActivity.class));
             }
         });
     }
