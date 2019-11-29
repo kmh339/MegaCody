@@ -60,6 +60,8 @@ public class CameraActivity extends AppCompatActivity{
     private File tempFile;
     private String absoluteImagePath = "";
 
+    private String downloadURL;
+
     FirebaseStorage storage;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference conditionRef = mRootRef.child("images");
@@ -67,7 +69,6 @@ public class CameraActivity extends AppCompatActivity{
     Button galleryButton;
     Button cameraButton;
     ImageView imageView;
-    EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -138,7 +139,8 @@ public class CameraActivity extends AppCompatActivity{
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            Uri downloadUri = task.getResult();
+                            //Uri downloadUri = task.getResult();
+                            downloadURL = riversRef.toString();
                             String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
                             conditionRef.setValue(res);
 
@@ -349,6 +351,10 @@ public class CameraActivity extends AppCompatActivity{
                         Log.i("ExternalStorage", "-> uri=" + uri);
                     }
                 });
+    }
+
+    public String getDownloadURL(){
+        return downloadURL;
     }
 
 
