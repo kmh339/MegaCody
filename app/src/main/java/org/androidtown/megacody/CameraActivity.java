@@ -140,7 +140,7 @@ public class CameraActivity extends AppCompatActivity{
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
                             //Uri downloadUri = task.getResult();
-                            downloadURL = riversRef.toString();
+                            downloadURL = riversRef.getDownloadUrl().toString();
                             String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
                             conditionRef.setValue(res);
 
