@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "154846422715-0fb91sthmmq2dm9t97ka0k2bhj8cp1u6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.megacody",
+            "certificate_hash": "5b17a6581bf873f66a7df7ea6b62bbc78bd3e240"
+          }
+        },
+        {
+          "client_id": "154846422715-1pgr8hhoo6o3uop9f6555ooouetr4s3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.androidtown.megacody",
+            "certificate_hash": "73cba05dfda29142a9b5178bd29dd9ff435c9017"
+          }
+        },
+        {
           "client_id": "154846422715-nmjcli7mt7dbem77o2jjptromd3gmej6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

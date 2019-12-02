@@ -60,7 +60,7 @@ public class CameraActivity extends AppCompatActivity{
     private File tempFile;
     private String absoluteImagePath = "";
 
-    private String downloadURL;
+    public String downloadURL;
 
     FirebaseStorage storage;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
@@ -108,7 +108,7 @@ public class CameraActivity extends AppCompatActivity{
 
                 Uri file = Uri.fromFile(new File(absoluteImagePath));
                 //스토리지에 이미지 저장 위치 설정
-                final StorageReference riversRef = storage.getReference().child("images/" + file.getLastPathSegment());
+                StorageReference riversRef = storage.getReference().child("images/" + file.getLastPathSegment());
 
                 UploadTask uploadTask = riversRef.putFile(file);
 
@@ -121,40 +121,19 @@ public class CameraActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(imageView.getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                        Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
+
+                        String mypath = downloadUri.getResult().toString();
+                        Log.d(this.getClass().getName(), "my url2 : " + mypath);
+
                     }
                 });
 
+                //Log.d(this.getClass().getName(), "my url2 : " + generatedFP);
 
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+                //Toast.makeText(CameraActivity.this, "upload url : " + downloadURL, Toast.LENGTH_SHORT).show();
 
-                        // Continue with the task to get the download URL
-                        return riversRef.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            //Uri downloadUri = task.getResult();
-                            downloadURL = riversRef.getDownloadUrl().toString();
-                            String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
-                            conditionRef.setValue(res);
-
-                            //editText.setText(downloadUri.toString());
-
-
-                        } else {
-                            // Handle failures
-                            // ...
-                        }
-                    }
-                });
-
-                startActivity(new Intent(CameraActivity.this, CodyActivity.class));
+               // startActivity(new Intent(CameraActivity.this, CodyActivity.class));
             }
         });
     }
