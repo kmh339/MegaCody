@@ -15,16 +15,27 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.androidtown.megacody.CameraActivity;
 
 public class CodyActivity extends AppCompatActivity {
     ImageView imageView;
+    Uri uri;
+
+    private CameraActivity cameraActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cody);
 
-        //Toast.makeText(CodyActivity.this, "url : " + url, Toast.LENGTH_SHORT).show();
+        cameraActivity = new CameraActivity();
+
+        uri = cameraActivity.getDownloadURL();
+
+
+        Log.d(this.getClass().getName(), "my url2 : " + uri);
+
         loadWithGlide();
 
     }
