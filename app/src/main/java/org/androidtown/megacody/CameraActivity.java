@@ -155,7 +155,7 @@ public class CameraActivity extends AppCompatActivity{
                                 @Override
                                 public void onClick(View v) {
                                     try {
-                                        Thread.sleep(3000);
+                                        Thread.sleep(2500);
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
