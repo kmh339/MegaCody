@@ -111,7 +111,7 @@ public class CameraActivity extends AppCompatActivity{
                 Uri file = Uri.fromFile(new File(absoluteImagePath));
                 //스토리지에 이미지 저장 위치 설정
                 final StorageReference riversRef = storage.getReference().child("images/" + file.getLastPathSegment());
-
+                //images/filename.jpg
                 UploadTask uploadTask = riversRef.putFile(file);
 
                 uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -140,9 +140,11 @@ public class CameraActivity extends AppCompatActivity{
                         if(task.isSuccessful()){
                             //Uri uri = task.getResult();
                             setDownloadURL(task.getResult());
-                            //Log.d(this.getClass().getName(), "url1 : " + uri);
-
                             Uri uri = getDownloadURL();
+                            //db에 url 등록(스트링타입)
+                            String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
+                            conditionRef.setValue(res);
+
                             Log.d(this.getClass().getName(), "my url1 : " + uri);
                             startActivity(new Intent(CameraActivity.this, CodyActivity.class));
                         }

@@ -49,7 +49,7 @@ public class CodyActivity extends AppCompatActivity {
 
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)
-        //Glide.with(CodyActivity.this).load("https://firebasestorage.googleapis.com/v0/b/megacody-578e9.appspot.com/o/images%2Ftest.jpg?alt=media&token=826b0b9b-4400-48f8-bfad-79e404b61976").into(imageView);
+        //Glide.with(CodyActivity.this).load(uri).into(imageView);
         //Glide.with(CodyActivity.this).load(image).into(imageView);
        // Log.d(this.getClass().getName(), "my url2 : " + image.toString());
 
