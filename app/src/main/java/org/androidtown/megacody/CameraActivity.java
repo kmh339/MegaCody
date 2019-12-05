@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +63,9 @@ public class CameraActivity extends AppCompatActivity{
     private File tempFile;
     private String absoluteImagePath = "";
 
+    private View mainview;
+
+
     //public Uri downloadUri;
 
     FirebaseStorage storage;
@@ -76,6 +80,9 @@ public class CameraActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        mainview = findViewById(R.id.camera_activity);
+
         storage = FirebaseStorage.getInstance();
         tedPermission();
 
@@ -139,14 +146,27 @@ public class CameraActivity extends AppCompatActivity{
                     public void onComplete(@NonNull Task<Uri> task) {
                         if(task.isSuccessful()){
                             //Uri uri = task.getResult();
-                            setDownloadURL(task.getResult());
-                            Uri uri = getDownloadURL();
                             //db에 url 등록(스트링타입)
                             String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
                             conditionRef.setValue(res);
+                            final Snackbar snackbar = Snackbar.make(mainview, "의상추천을 원하십니까?", Snackbar.LENGTH_INDEFINITE);
 
-                            Log.d(this.getClass().getName(), "my url1 : " + uri);
-                            startActivity(new Intent(CameraActivity.this, CodyActivity.class));
+                            snackbar.setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        Thread.sleep(3000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    startActivity(new Intent(CameraActivity.this, CodyActivity.class));
+
+                                }
+                            });
+
+                            snackbar.show();
+
+                            //startActivity(new Intent(CameraActivity.this, CodyActivity.class));
                         }
                         else {
                             //
@@ -350,18 +370,6 @@ public class CameraActivity extends AppCompatActivity{
                         Log.i("ExternalStorage", "-> uri=" + uri);
                     }
                 });
-    }
-
-    private void setDownloadURL(Uri uri){
-        this.downloadUri = uri;
-        Log.d(this.getClass().getName(), "func set down url : " + downloadUri);
-
-    }
-
-    public Uri getDownloadURL(){
-        Log.d(this.getClass().getName(), "func get down url : " + downloadUri);
-
-        return downloadUri;
     }
 
 
