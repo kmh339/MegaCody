@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -61,27 +62,23 @@ public class CameraActivity extends AppCompatActivity{
     private File tempFile;
     private String absoluteImagePath = "";
 
-    private View mainview;
 
 
     //public Uri downloadUri;
 
-    FirebaseStorage storage;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference conditionRef = mRootRef.child("images");
 
-    Button galleryButton;
-    Button cameraButton;
-    ImageView imageView;
+    ImageButton galleryButton;
+    ImageButton cameraButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        mainview = findViewById(R.id.camera_activity);
 
-        storage = FirebaseStorage.getInstance();
+
         tedPermission();
 
         galleryButton = findViewById(R.id.btnGallery);
@@ -107,73 +104,7 @@ public class CameraActivity extends AppCompatActivity{
             }
         });
 
-        imageView = findViewById(R.id.imageView);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), absoluteImagePath, Toast.LENGTH_LONG).show();
 
-                Uri file = Uri.fromFile(new File(absoluteImagePath));
-                //스토리지에 이미지 저장 위치 설정
-                final StorageReference riversRef = storage.getReference().child("images/" + file.getLastPathSegment());
-                //images/filename.jpg
-                UploadTask uploadTask = riversRef.putFile(file);
-
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(imageView.getContext(), "업로드 실패", Toast.LENGTH_LONG).show();
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(imageView.getContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if(!task.isSuccessful()){
-                            throw task.getException();
-                        }
-                        return riversRef.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if(task.isSuccessful()){
-                            //Uri uri = task.getResult();
-                            //db에 url 등록(스트링타입)
-                            String res = riversRef.toString().substring(riversRef.toString().lastIndexOf("com") + 4);
-                            conditionRef.setValue(res);
-                            final Snackbar snackbar = Snackbar.make(mainview, "의상추천을 원하십니까?", Snackbar.LENGTH_INDEFINITE);
-
-                            snackbar.setAction("OK", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        Thread.sleep(2500);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    startActivity(new Intent(CameraActivity.this, CodyActivity.class));
-
-                                }
-                            });
-
-                            snackbar.show();
-
-                            //startActivity(new Intent(CameraActivity.this, CodyActivity.class));
-                        }
-                        else {
-                            //
-                        }
-                    }
-                });
-
-            }
-        });
     }
 
     @Override
@@ -279,31 +210,13 @@ public class CameraActivity extends AppCompatActivity{
 
         } else if (requestCode == PICK_FROM_CAMERA){
             //저장된 이미지를 보여주도록 갤러리 갱신
-            galleryAddPic(tempFile.getAbsolutePath());
+            //galleryAddPic(tempFile.getAbsolutePath());
 
             setImage();
         }
     }
 
-    private void setImage() {
 
-        ImageView imageView = findViewById(R.id.imageView);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
-
-        absoluteImagePath = tempFile.getAbsolutePath();
-
-
-        imageView.setImageBitmap(originalBm);
-        /**
-         *  tempFile 사용 후 null 처리를 해줘야 합니다.
-         *  (resultCode != RESULT_OK) 일 때 tempFile 을 삭제하기 때문에
-         *  기존에 데이터가 남아 있게 되면 원치 않은 삭제가 이뤄집니다.
-         */
-        tempFile = null;
-
-    }
 
     private void takePhoto() {
 
@@ -370,5 +283,28 @@ public class CameraActivity extends AppCompatActivity{
                 });
     }
 
+    private void setImage() {
+
+        //ImageView imageView = findViewById(R.id.imageView);
+
+
+
+        absoluteImagePath = tempFile.getAbsolutePath();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("path", absoluteImagePath);
+        startActivity(intent);
+        finish();
+
+        //
+        /**
+         *  tempFile 사용 후 null 처리를 해줘야 합니다.
+         *  (resultCode != RESULT_OK) 일 때 tempFile 을 삭제하기 때문에
+         *  기존에 데이터가 남아 있게 되면 원치 않은 삭제가 이뤄집니다.
+         */
+        tempFile = null;
+
+
+    }
 
 }

@@ -58,9 +58,9 @@ public class CodyActivity extends AppCompatActivity {
 
                 }
 
-                imageView1 = (ImageView)findViewById(R.id.imageView1);
-                imageView2 = (ImageView)findViewById(R.id.imageView2);
-                imageView3 = (ImageView)findViewById(R.id.imageView3);
+                imageView4 = (ImageView)findViewById(R.id.imageView4);
+                imageView5 = (ImageView)findViewById(R.id.imageView5);
+                imageView6 = (ImageView)findViewById(R.id.imageView6);
                 // imageView4 = (ImageView)findViewById(R.id.imageView4);
                 // imageView5 = (ImageView)findViewById(R.id.imageView5);
                 // imageView6 = (ImageView)findViewById(R.id.imageView6);
@@ -80,7 +80,7 @@ public class CodyActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     if(task.isSuccessful()){
-                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView1);
+                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView4);
                                     }else{
                                     }
                                 }
@@ -91,7 +91,7 @@ public class CodyActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     if(task.isSuccessful()){
-                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView2);
+                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView5);
                                     }else{
                                     }
                                 }
@@ -102,7 +102,7 @@ public class CodyActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Uri> task) {
                                     if(task.isSuccessful()){
-                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView3);
+                                        Glide.with(CodyActivity.this).load(task.getResult()).into(imageView6);
                                     }else{
                                     }
                                 }
