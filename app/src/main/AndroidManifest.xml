@@ -29,6 +29,7 @@
         <activity android:name=".CameraActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".CodyActivity"/>
+        <activity android:name=".SignUpActivity"/>
 
         <!-- 사진 촬영을 위한 provide -->
         <provider

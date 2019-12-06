@@ -69,14 +69,14 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="28dp"
         android:layout_gravity="right"
         android:layout_margin="30dp"
-        android:background="#d6ecfa"
-        android:text="확인"
-        android:textStyle="bold" />
+        android:adjustViewBounds="true"
+        android:background="@drawable/confirm"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>

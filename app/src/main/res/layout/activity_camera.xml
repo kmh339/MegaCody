@@ -13,7 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="80dp"
-        android:layout_marginBottom="270dp"
+        android:layout_marginBottom="220dp"
         android:background="@drawable/camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnGallery"
@@ -25,7 +25,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginBottom="270dp"
+        android:layout_marginBottom="220dp"
         android:background="@drawable/gallery"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

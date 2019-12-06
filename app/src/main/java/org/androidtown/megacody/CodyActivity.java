@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,10 +37,10 @@ public class CodyActivity extends AppCompatActivity {
     private ImageView imageView5;
     private ImageView imageView6;
 
-    private Button backbutton;
+    private ImageButton backbutton;
     int i;
     int j = 0;
-    public String[] strings = new String[30];
+    private String[] strings = new String[30];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

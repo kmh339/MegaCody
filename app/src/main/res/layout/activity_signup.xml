@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SignUpActivity">
+    >
 
     <LinearLayout
         android:id="@+id/email_login_form"
@@ -23,7 +25,7 @@
             />
 
         <EditText
-            android:id="@+id/main_email"
+            android:id="@+id/sign_up_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="email"
@@ -33,7 +35,7 @@
             android:singleLine="true" />
 
         <EditText
-            android:id="@+id/main_pwd"
+            android:id="@+id/sign_up_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -47,38 +49,20 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/main_login_btn"
+                android:id="@+id/sign_up_btn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="로그인"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
+                android:text="가입"
+                android:textStyle="bold"
+                android:background="#d6ecfa"/>
 
-            <Button
-                android:id="@+id/main_join_btn"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:background="@color/colorAccent"
-                android:text="회원가입"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
         </LinearLayout>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_googleLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="15dp" />
+
 
     </LinearLayout>
 </LinearLayout>
