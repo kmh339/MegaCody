@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity{
         cameraOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                //startActivity(new Intent(MainActivity.this, CameraActivity.class));
             }
         });
 

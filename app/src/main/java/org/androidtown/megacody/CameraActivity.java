@@ -58,8 +58,6 @@ public class CameraActivity extends AppCompatActivity{
 
     private Boolean isPermission = true;
 
-    private Uri downloadUri;
-
     private File tempFile;
     private String absoluteImagePath = "";
 

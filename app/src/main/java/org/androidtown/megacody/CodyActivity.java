@@ -127,6 +127,7 @@ public class CodyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CodyActivity.this, CameraActivity.class));
+                finish();
             }
         });
 
